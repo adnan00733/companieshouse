@@ -15,7 +15,7 @@ class CompanyController extends Controller
     {
         if (strtoupper($country) === 'SG') {
             $company = SgCompany::findOrFail($id);
-            $reports = SgReport::all()->map(function ($r) {
+            $reports = SgReport::where(["is_active" => 1])->get()->map(function ($r) {
                 return [
                     'id' => $r->id,
                     'name' => $r->name,
@@ -30,7 +30,10 @@ class CompanyController extends Controller
 
             // Reports are defined in report_state
             $reportStates = ReportState::with('report')
-                ->where('state_id', $stateId)
+                ->where(['state_id' => $stateId])
+                ->whereHas('report', function ($query) {
+                    $query->where('status', 1);
+                })
                 ->get();
 
             $reports = $reportStates->map(function ($rs) {

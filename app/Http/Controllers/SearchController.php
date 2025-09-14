@@ -19,7 +19,7 @@ class SearchController extends Controller
         $q = $request->input('q', '');
         $page = $request->input('page', 1);
         $results = null;
-        if ($q !== '') {
+        if ($q != '') {
             $results = $this->search->search($q, 15, $page);
         } else {
             $results = collect();

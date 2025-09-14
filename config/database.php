@@ -66,7 +66,7 @@ return [
         'mysql_sg' => [
             'driver' => 'mysql',
             'url' => env('DB_URL'),
-            'host' => env('DB_HOST', '127.0.0.1'),
+            'host' => env('DB_SG_HOST', '127.0.0.1'),
             'port' => env('DB_SG_PORT', '3306'),
             'database' => env('DB_SG_DATABASE', 'companies_house_sg'),
             'username' => env('DB_SG_USERNAME', 'root'),
@@ -86,7 +86,7 @@ return [
         'mysql_mx' => [
             'driver' => 'mysql',
             'url' => env('DB_URL'),
-            'host' => env('DB_HOST', '127.0.0.1'),
+            'host' => env('DB_MX_HOST', '127.0.0.1'),
             'port' => env('DB_MX_PORT', '3306'),
             'database' => env('DB_MX_DATABASE', 'companies_house_mx'),
             'username' => env('DB_MX_USERNAME', 'root'),
