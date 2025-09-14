@@ -20,16 +20,21 @@ Laravel app that provides unified search across Singapore and Mexico company dat
 5. `npm run build`
 6. `php artisan key:generate`
 7. Populate the two databases with tables and sample data.
-8. `php artisan serve`
-
 ## Database `companies_house_mx` changes.
-1. `ALTER TABLE companies ADD INDEX idx_companies_name (name);`
-2. `ALTER TABLE reports ADD INDEX idx_reports_status (status);`
-3. `ALTER TABLE report_state ADD INDEX idx_reports_state_id (state_id);`
+8. `ALTER TABLE companies ADD INDEX idx_companies_name (name);`
+9. `ALTER TABLE reports ADD INDEX idx_reports_status (status);`
+10. `ALTER TABLE report_state ADD INDEX idx_reports_state_id (state_id);`
 
 ## Database `companies_house_sg` changes.
-1. `ALTER TABLE companies ADD UNIQUE INDEX idx_companies_slug (slug),ADD INDEX idx_companies_name (name);`
-2. `ALTER TABLE reports ADD INDEX idx_reports_is_active (is_active);`
+11. `ALTER TABLE companies ADD UNIQUE INDEX idx_companies_slug (slug),ADD INDEX idx_companies_name (name);`
+12. `ALTER TABLE reports ADD INDEX idx_reports_is_active (is_active);`
+13.  Go to this [link](https://github.com/meilisearch/meilisearch/releases) and download meilisearch as per your OS requirement. I am using Windows and downloaded meilisearch-windows-amd64.exe file.
+14. After download `meilisearch-windows-amd64.exe` file. execute the `meilisearch-windows-amd64.exe` file. You will get MEILISEARCH_KEY Master key. copy this key and paste in .env file. You will also get the `listening on: 127.0.0.1:7700` copy this ip and port and paste in .env file. e.g MEILISEARCH_HOST=http://127.0.0.1:7700. Keep exe file runing.
+15. (optional) execute `php artisan db:seed --class=CompanySeeder`. this will add 1M records to each db company.
+16. Import Companies into meilisearch by executing this command. `php artisan scout:import "App\Models\Mx\Company"` and `php artisan scout:import "App\Models\Sg\Company`
+17. `php artisan serve`
+
+
 
 
 

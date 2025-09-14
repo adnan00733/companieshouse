@@ -13,15 +13,20 @@ class CompanySearchService
     {
         $q = trim($q);
 
-        $sgResults = SgCompany::search($q)->get();
-        $mxResults = MxCompany::search($q)->get();
-        $merged = $sgResults->concat($mxResults)->sortBy('name')->values();
-        // Manual pagination
-        $total = $merged->count();
-        $items = $merged->forPage($page, $perPage)->values();
+        $sgPage = SgCompany::search($q)->paginate($perPage, 'page', $page);
+        $mxPage = MxCompany::search($q)->paginate($perPage, 'page', $page);
 
-        return new LengthAwarePaginator(
-            $items,
+        // convert arrays into collections
+        $sgItems = collect($sgPage->items());
+        $mxItems = collect($mxPage->items());
+
+        // merge
+        $merged = $sgItems->concat($mxItems)->sortBy('name')->values();
+
+        $total = $sgPage->total() + $mxPage->total();
+
+        return new \Illuminate\Pagination\LengthAwarePaginator(
+            $merged,
             $total,
             $perPage,
             $page,
