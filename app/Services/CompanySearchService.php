@@ -13,31 +13,9 @@ class CompanySearchService
     {
         $q = trim($q);
 
-        $sgResults = SgCompany::select([
-            'id',
-            'name',
-            DB::raw("'SG' as country"),
-            'slug',
-            'registration_number',
-            'address'
-        ])
-            ->where('name', 'like', "%{$q}%")
-            ->limit(100)
-            ->get();
-
-        $mxResults = MxCompany::select([
-            'id',
-            'name',
-            DB::raw("'MX' as country"),
-            'slug',
-            'address'
-        ])
-            ->where('name', 'like', "%{$q}%")
-            ->limit(100)
-            ->get();
-
+        $sgResults = SgCompany::search($q)->get();
+        $mxResults = MxCompany::search($q)->get();
         $merged = $sgResults->concat($mxResults)->sortBy('name')->values();
-
         // Manual pagination
         $total = $merged->count();
         $items = $merged->forPage($page, $perPage)->values();
